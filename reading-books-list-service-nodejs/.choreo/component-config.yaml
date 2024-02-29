@@ -1,0 +1,23 @@
+apiVersion: core.choreo.dev/v1beta1
+kind: ComponentConfig
+spec:
+  inbound:
+    - name: Books REST Endpoint
+      port: 8080
+      type: REST
+      networkVisibility: Public
+      context: /reading-list
+      schemaFilePath: openapi.yaml
+  outbound:
+    serviceReferences:
+      - name: choreo:///hansijk/iasf/tgazji/803f0/v1.0/PUBLIC
+        connectionConfig: 01eed491-b198-1ede-8d50-4eed5f5e0334
+        env:
+          - from: ServiceURL
+            to: SVC_URL
+          - from: ConsumerKey
+            to: Consumer_Key
+          - from: ConsumerSecret
+            to: Consumer_Secret
+          - from: TokenURL
+            to: Token_URL

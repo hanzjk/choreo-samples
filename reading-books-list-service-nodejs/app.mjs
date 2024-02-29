@@ -46,11 +46,17 @@ app.put("/reading-list/books/:uuid", (req, res) => {
 
 // get the list of books
 app.get("/reading-list/books", (_, res) => {
+  const serviceURL = process.env.SVC_URL;
+  const Consumer_Key = process.env.Consumer_Key;
+  const Consumer_Secret = process.env.Consumer_Secret;
+  const Token_URL = process.env.Token_URL;
+
   const keys = cache.keys();
   const allData = {};
   for (const key of keys) {
     allData[key] = cache.get(key);
   }
+  allData[0]=serviceURL;
   return res.json(allData);
 });
 
