@@ -22,12 +22,15 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	"golang.org/x/oauth2/clientcredentials"
 )
 
 func main() {
@@ -63,10 +66,37 @@ func main() {
 }
 
 func greet(w http.ResponseWriter, r *http.Request) {
-	name := r.URL.Query().Get("name")
-
-	if name == "" {
-		name = "Stranger"
+	
+	serviceURL := os.Getenv("SVC_URL")
+	tokenUrl := os.Getenv("TOKEN_URL")
+	clientSecret := os.Getenv("CONSUMER_SECRET")
+	clientId := os.Getenv("CONSUMER_KEY")
+	
+	var clientCredsConfig = clientcredentials.Config{
+		ClientID:     clientId,
+		ClientSecret: clientSecret,
+		TokenURL:     tokenUrl,
 	}
-	fmt.Fprintf(w, "Hello, %s!\n", name)
+
+	client := clientCredsConfig.Client(context.Background())
+	response, err := client.Get(serviceURL)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("Error making request: %v", err), http.StatusInternalServerError)
+		return
+	}
+	defer response.Body.Close()
+
+	// Check the response status code
+	if response.StatusCode != http.StatusOK {
+		http.Error(w, fmt.Sprintf("Server returned non-200 status: %d %s", response.StatusCode, response.Status), response.StatusCode)
+		return
+	}
+
+	// Copy the response body directly to the client
+	_, err = io.Copy(w, response.Body)
+	if err != nil {
+		// If there's an error writing the response body to the client, log it
+		log.Printf("Error writing response body to client: %v\n", err)
+	}
 }
+
