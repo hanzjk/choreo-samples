@@ -3,17 +3,16 @@
     <resource methods="GET">
         <inSequence>
             <!-- Getting env variables -->
-            <property expression="get-property('env', 'TOKEN_URL')" name="uri.var.token_url"
+            <property expression="get-property('env', 'TOKEN_URL')" name="token_url"
                 scope="default" type="STRING" />
-            <property expression="get-property('env', 'CONSUMER_KEY')" name="uri.var.consumer_key"
+            <property expression="get-property('env', 'CONSUMER_KEY')" name="consumer_key"
                 scope="default" type="STRING" />
             <property expression="get-property('env', 'CONSUMER_SECRET')"
                 name="uri.var.consumer_secret"
                 scope="default" type="STRING" />
-            <property expression="get-property('env', 'SVC_URL')" name="uri.var.service_url"
+            <property expression="get-property('env', 'SVC_URL')" name="service_url"
                 scope="default" type="STRING" />
 
-            <property name="service_url" expression="get-property('uri.var.service_url')" scope="default" type="STRING"/>
             <payloadFactory media-type="json">
                 <format>{"service_url":"$1"}</format>
                 <args>
