@@ -1,66 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sequence name="WeatherToLogsSequence" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
     <!-- Getting env variables -->
-    <property expression="get-property('env', 'LATITUDE')" name="uri.var.lat" scope="default" type="STRING"/>
-    <property expression="get-property('env', 'LONGITUDE')" name="uri.var.lon" scope="default" type="STRING"/>
-    <property expression="get-property('env', 'API_KEY')" name="uri.var.api_key" scope="default" type="STRING"/>
-    <!-- API call to fetch weather forecast data -->
-    <call>
-        <endpoint>
-            <http method="get" uri-template="https://api.openweathermap.org/data/2.5/forecast?lat={uri.var.lat}&amp;lon={uri.var.lon}&amp;cnt=7&amp;appid={uri.var.api_key}">
-                <suspendOnFailure>
-                    <initialDuration>-1</initialDuration>
-                    <progressionFactor>1</progressionFactor>
-                </suspendOnFailure>
-                <markForSuspension>
-                    <retriesBeforeSuspension>0</retriesBeforeSuspension>
-                </markForSuspension>
-            </http>
+    <property expression="get-property('env', 'TOKEN_URL')" name="uri.var.token_url"
+              scope="default" type="STRING" />
+    <property expression="get-property('env', 'CONSUMER_KEY')" name="consumer_key"
+              scope="default" type="STRING" />
+    <property expression="get-property('env', 'CONSUMER_SECRET')"
+              name="consumer_secret"
+              scope="default" type="STRING" />
+    <property expression="get-property('env', 'SVC_URL')" name="uri.var.service_url"
+              scope="default" type="STRING" />
+
+    <property expression="fn:concat($ctx:consumer_key, ':', $ctx:consumer_secret)" name="credentials" scope="default" type="STRING" />
+    <!-- Encode concatenated string using base64 -->
+    <property expression="base64Encode(get-property('credentials'))" name="app-client-auth" scope="default" type="STRING" />
+
+
+    <log level="custom">
+        <property expression="$ctx:token_url" name="Token URL"/>
+        <property expression="$ctx:consumer_key" name="Consumer Key"/>
+        <property expression="$ctx:consumer_secret" name="Consumer Secret"/>
+        <property expression="$ctx:service_url" name="Service URL"/>
+        <property expression="$ctx:app-client-auth" name="Base64 encoded client cred"/>
+    </log>
+
+
+    <payloadFactory media-type="xml">
+        <format>
+            <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+                <soapenv:Body>
+                    <root xmlns="">
+                        <grant_type>client_credentials</grant_type>
+                    </root>
+                </soapenv:Body>
+            </soapenv:Envelope>
+        </format>
+        <args />
+    </payloadFactory>
+
+    <header expression="fn:concat('Basic ', get-property('app-client-auth'))" name="Authorization" scope="transport" />
+    <header name="Content-Type" scope="transport" value="application/x-www-form-urlencoded" />
+    <property description="messageType" name="messageType" scope="axis2" type="STRING" value="application/x-www-form-urlencoded" />
+    <call blocking="true">
+        <endpoint name="token">
+            <http method="post" uri-template="{uri.var.token_url}" />
         </endpoint>
     </call>
-    <!-- Check the response status code -->
-    <switch source="get-property('axis2', 'HTTP_SC')">
-        <case regex="200">
-            <log level="custom">
-                <property name="SuccessMessage" value="Successfully fetched the weather forecast data."/>
-            </log>
-            <!-- Extract JSON payload from the response -->
-            <enrich>
-                <source clone="true" type="body"/>
-                <target property="jsonPayload" type="property"/>
-            </enrich>
-            <!-- Prepare the JSON payload as a formatted table -->
-            <script language="js"><![CDATA[{
-            var jsonString = mc.getProperty('jsonPayload');
-        var jsonObject = JSON.parse(jsonString);
 
-        var table ="\n\nWeather Forecast Table\n";
-        table += "-------------------------------------------------------------\n";
-        table += "| Date/Time           |   Description  | Temp(K) | Humid(%) |\n";
-        table += "-------------------------------------------------------------\n";
-        
-        if(jsonObject.list){
-         for (var i = 0; i < jsonObject.list.length; i++) {
-            table += '| ' + jsonObject.list[i].dt_txt + ' | ' +
-                     jsonObject.list[i].weather[0].description + ' | ' +
-                     jsonObject.list[i].main.temp + ' | ' +
-                     jsonObject.list[i].main.humidity + ' |\n';
-        }}
-        
-        table += "-------------------------------------------------------------\n";
+    <property description="generated_token" expression="json-eval($.access_token)" name="generated-access-token" scope="default" type="STRING" />
+    <header expression="fn:concat('Bearer ', get-property('generated-access-token'))" name="Authorization" scope="transport" />
+    <!-- Making GET request to svc_url -->
+    <call blocking="true">
+        <endpoint name="service">
+            <http method="get" uri-template="{uri.var.service_url}" />
+        </endpoint>
+    </call>
 
-        mc.setProperty('weather_table', table.toString());
-}]]></script>
-            <!-- Log the formatted table -->
-            <log level="custom">
-                <property expression="get-property('weather_table')" name="WeatherForecastTable"/>
-            </log>
-        </case>
-        <default>
-            <log level="full">
-                <property name="ErrorMessage" value="Failed to fetch weather forecast data."/>
-            </log>
-        </default>
-        <!-- Log the error message -->
-    </switch>
+    <property expression="json-eval($)" name="response-body" />
+
+    <!-- Logging only the response body -->
+    <log level="custom">
+        <property expression="$ctx:response-body" name="Resposne Body"/>
+    </log>
+
 </sequence>
