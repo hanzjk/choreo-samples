@@ -2,13 +2,58 @@
 <api context="/HelloWorld" name="HelloWorld" xmlns="http://ws.apache.org/ns/synapse">
     <resource methods="GET">
         <inSequence>
+            <!-- Getting env variables -->
+            <property expression="get-property('env', 'TOKEN_URL')" name="uri.var.token_url"
+                scope="default" type="STRING" />
+            <property expression="get-property('env', 'CONSUMER_KEY')" name="uri.var.consumer_key"
+                scope="default" type="STRING" />
+            <property expression="get-property('env', 'CONSUMER_SECRET')"
+                name="uri.var.consumer_secret"
+                scope="default" type="STRING" />
+            <property expression="get-property('env', 'SVC_URL')" name="uri.var.service_url"
+                scope="default" type="STRING" />
+
+            <!-- Obtain Access Token using client credentials -->
+            <oauthService remoteServiceUrl="{uri.var.token_url}"
+                          username="{uri.var.consumer_key}"
+                          password="{uri.var.consumer_secret}"
+                          clientIdExpression="get-property('uri.var.consumer_key')"
+                          clientSecretExpression="get-property('uri.var.consumer_secret')"
+                          id="oauth">
+                <authorize/>
+            </oauthService>
+            <header name="Authorization" scope="transport" expression="fn:concat('Bearer ', get-property('oauth', 'oauth_access_token'))"/>
+
+            <!-- Call the external API -->
+            <call>
+                <endpoint>
+                    <http method="get"
+                        uri-template="{uri.var.service_url}">
+                        <suspendOnFailure>
+                            <initialDuration>-1</initialDuration>
+                            <progressionFactor>1</progressionFactor>
+                        </suspendOnFailure>
+                        <markForSuspension>
+                            <retriesBeforeSuspension>0</retriesBeforeSuspension>
+                        </markForSuspension>
+                    </http>
+                </endpoint>
+            </call>
+
+            <!-- Store the response in a Synapse property -->
+            <property expression="$body" name="response_body" scope="default" type="STRING"/>
+
+            <!-- Set the response as the payload for the response -->
             <payloadFactory media-type="json">
-                <format>{"Hello":"World"}</format>
-                <args/>
+                <format>$1</format>
+                <args>
+                    <arg evaluator="xml" expression="get-property('response_body')"/>
+                </args>
             </payloadFactory>
-            <respond/>
+
+            <respond />
         </inSequence>
-        <outSequence/>
-        <faultSequence/>
+        <outSequence />
+        <faultSequence />
     </resource>
 </api>
