@@ -11,7 +11,7 @@ spec:
   outbound:
     serviceReferences:
     - name: choreo:///hansijk/iasf/isdtvy/8b1c3/v1/PUBLIC
-      connectionConfig: 01eefda3-bac4-17d8-b271-e3505ecd5cb1
+      connectionConfig: 01eefdf1-c939-1866-8ed9-0377f3fb5a74
       env:
       - from: ServiceURL
         to: SVC_URL
