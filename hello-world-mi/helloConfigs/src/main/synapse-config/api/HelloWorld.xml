@@ -43,7 +43,7 @@
             <header name="Content-Type" scope="transport" value="application/x-www-form-urlencoded" />
             <property description="messageType" name="messageType" scope="axis2" type="STRING" value="application/x-www-form-urlencoded" />
             <call blocking="true">
-                <endpoint name="token">
+                <endpoint>
                     <http method="post" uri-template="{uri.var.token_url}" />
                 </endpoint>
             </call>
@@ -52,7 +52,7 @@
             <header expression="fn:concat('Bearer ', get-property('generated-access-token'))" name="Authorization" scope="transport" />
             <!-- Making GET request to svc_url -->
             <call blocking="true">
-                <endpoint name="service">
+                <endpoint>
                     <http method="get" uri-template="{uri.var.service_url}" />
                 </endpoint>
             </call>
