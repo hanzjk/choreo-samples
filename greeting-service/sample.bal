@@ -7,8 +7,8 @@ type Greeting record {
 };
 
 service / on new http:Listener(8090) {
-    resource function get .(string name) returns Greeting {
-        Greeting greetingMessage = {"from" : "Choreo", "to" : name, "message" : "Welcome to Choreo!"};
+    resource function get .() returns Greeting {
+        Greeting greetingMessage = {"from" : "Choreo", "to" : "hansi", "message" : "Welcome to Choreo!"};
         return greetingMessage;
     }
 }
