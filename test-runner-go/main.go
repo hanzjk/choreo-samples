@@ -18,69 +18,98 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"golang.org/x/oauth2/clientcredentials"
 )
 
 // Struct to represent the JSON data
- type Post struct {
-	 UserID int    `json:"userId"`
-	 ID     int    `json:"id"`
-	 Title  string `json:"title"`
-	 Body   string `json:"body"`
- }
- 
- func main() {
-	 fmt.Println("Running tests...")
-	 // Run tests programmatically
-	 testing.Main(func(pat, str string) (bool, error) {
-		 return true, nil
-	 }, []testing.InternalTest{
-		 {Name: "TestMyFunction", F: TestMyFunction},
-	 }, nil, nil)
-	 fmt.Println("Tests complete.")
- }
- 
- // Helper function to make an API request and perform assertions.
- func performAPICallAndAssert(t *testing.T, postID int) {
-	 // Make an HTTP GET request to a public API (for example, JSONPlaceholder) with the specified post ID.
-	 url := fmt.Sprintf("https://jsonplaceholder.typicode.com/posts/%d", postID)
-	 resp, err := http.Get(url)
-	 if err != nil {
-		 t.Fatalf("Failed to make API request: %v", err)
+	type Post struct {
+		UserID int    `json:"userId"`
+		ID     int    `json:"id"`
+		Title  string `json:"title"`
+		Body   string `json:"body"`
+	}
+	
+	func main() {
+		fmt.Println("Running tests...")
+		// Run tests programmatically
+		testing.Main(func(pat, str string) (bool, error) {
+			return true, nil
+		}, []testing.InternalTest{
+			{Name: "TestMyFunction", F: TestMyFunction},
+		}, nil, nil)
+		fmt.Println("Tests complete.")
+	}
+	
+	// Helper function to make an API request and perform assertions.
+	func performAPICallAndAssert(t *testing.T, postID int) {
+		// Make an HTTP GET request to a public API (for example, JSONPlaceholder) with the specified post ID.
+		url := fmt.Sprintf("https://jsonplaceholder.typicode.com/posts/%d", postID)
+		resp, err := http.Get(url)
+		if err != nil {
+			t.Fatalf("Failed to make API request: %v", err)
+		}
+		defer resp.Body.Close()
+	
+		// Read the response body.
+		body, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			t.Fatalf("Failed to read response body: %v", err)
+		}
+	
+		// Unmarshal the JSON data into a Post struct.
+		var post Post
+		err = json.Unmarshal(body, &post)
+		if err != nil {
+			t.Fatalf("Failed to unmarshal JSON: %v", err)
+		}
+	
+		// Perform assertions on the response (intentionally set to fail).
+		assert.Equal(t, post.UserID, 1, "user Id mismatch")
+		assert.Equal(t,post.ID, postID, "post Id mismatch")
+	
+		serviceURL := os.Getenv("SVC_URL")
+	 tokenUrl := os.Getenv("TOKEN_URL")
+	 clientSecret := os.Getenv("CONSUMER_SECRET")
+	 clientId := os.Getenv("CONSUMER_KEY")
+	 var w http.ResponseWriter
+	 var clientCredsConfig = clientcredentials.Config{
+		 ClientID:     clientId,
+		 ClientSecret: clientSecret,
+		 TokenURL:     tokenUrl,
 	 }
-	 defer resp.Body.Close()
  
-	 // Read the response body.
-	 body, err := ioutil.ReadAll(resp.Body)
+	 client := clientCredsConfig.Client(context.Background())
+	 response, err := client.Get(serviceURL)
 	 if err != nil {
-		 t.Fatalf("Failed to read response body: %v", err)
+		 http.Error(w, fmt.Sprintf("Error making request: %v", err), http.StatusInternalServerError)
+		 return
 	 }
  
-	 // Unmarshal the JSON data into a Post struct.
-	 var post Post
-	 err = json.Unmarshal(body, &post)
+	 defer response.Body.Close()
+ 
+	 body1, err := ioutil.ReadAll(response.Body)
 	 if err != nil {
-		 t.Fatalf("Failed to unmarshal JSON: %v", err)
+			 http.Error(w, fmt.Sprintf("Error reading response body: %v", err), http.StatusInternalServerError)
+			 return
 	 }
- 
-	 // Perform assertions on the response (intentionally set to fail).
-	 assert.Equal(t, post.UserID, 1, "user Id mismatch")
-	 assert.Equal(t,post.ID, postID, "post Id mismatch")
- 
-	 // You can perform more assertions as needed.
- 
-	 // Print the JSON data for demonstration.
-	 fmt.Printf("Received JSON Data for Post ID %d:\n%+v\n", postID, post)
- }
- 
- func TestMyFunction(t *testing.T) {
-	 performAPICallAndAssert(t, 1)
-	 performAPICallAndAssert(t, 2)
- }
- 
+	 
+	 fmt.Println(string(body1))
+	
+		// Print the JSON data for demonstration.
+		fmt.Printf("Received JSON Data for Post ID %d:\n%+v\n", postID, post)
+	}
+	
+	func TestMyFunction(t *testing.T) {
+		performAPICallAndAssert(t, 1)
+		performAPICallAndAssert(t, 2)
+	}
+	
