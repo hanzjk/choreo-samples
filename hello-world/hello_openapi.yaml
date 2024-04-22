@@ -10,7 +10,7 @@ servers:
     port:
       default: "8090"
 paths:
-  /hello:
+  /greeting:
     get:
       operationId: getGreeting
       responses:
