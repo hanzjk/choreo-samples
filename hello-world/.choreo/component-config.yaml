@@ -6,7 +6,7 @@ spec:
       port: 8090
       type: REST
       networkVisibility: Public
-      context: /
+      context: /hello
       schemaFilePath: hello_openapi.yaml
   outbound:
     serviceReferences:
