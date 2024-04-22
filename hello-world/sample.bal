@@ -12,7 +12,9 @@ service /hello on new http:Listener(8090) {
         io:println("TOKEN_URL:"+tokenURL);
         io:println("CONSUMER_KEY"+consumerKey);
         io:println("CONSUMER_SECRET:"+consumerSecret);
+
         http:Client httpClient = check new http:Client(serviceURL, {
+            timeout: 60,
             auth: {
                 tokenUrl: tokenURL,
                 clientId: consumerKey,
