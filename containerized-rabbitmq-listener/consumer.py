@@ -11,7 +11,7 @@ def main():
     vhost = os.getenv("VHOST")
     host = os.getenv("HOST")
     password = os.getenv("PASSWORD")
-    queueName = "TestQueue2"
+    queueName = "TestQueue3"
     exchange = 'choreo'
 
     serviceURL = os.getenv("SVC_URL")
@@ -33,12 +33,11 @@ def main():
 
         # defining callback function to incoming queue messages
         def callbackFunctionForQueueA(ch, method, properties, body):
+            print('Message is received from Queue {}. Message is : '.format(queueName), body)
             client = BackendApplicationClient(client_id=consumerKey)
             oauth = OAuth2Session(client=client)
             _ = oauth.fetch_token(token_url=tokenURL,client_id=consumerKey,client_secret=consumerSecret,auth=HTTPBasicAuth(consumerKey, consumerSecret))
             response = oauth.get(serviceURL)
-            print('Message is received from Queue {}. Message is : '.format(
-                queueName), body)
             print("Response from the service: ", response.text)
 
         # attaching consumer callback function to the queue
