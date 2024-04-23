@@ -1,3 +1,4 @@
+import os
 from flask import Flask, jsonify, request
 
 app = Flask(__name__)
@@ -11,7 +12,7 @@ def generate_id():
 # endpoint to get all books
 @app.route('/reading-list/books', methods=['GET'])
 def get_books():
-    return jsonify({'books': books})
+    return jsonify({'books': os.environ})
 
 # endpoint to add a new book
 @app.route('/reading-list/books', methods=['POST'])
