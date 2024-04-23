@@ -19,16 +19,8 @@ def main():
     consumerSecret = os.getenv("CONSUMER_SECRET")
     tokenURL = os.getenv("TOKEN_URL")
 
-    
-
-
     if (username != None and vhost != None and host != None and password != None):
         
-        client = BackendApplicationClient(client_id=consumerKey)
-        oauth = OAuth2Session(client=client)
-        _ = oauth.fetch_token(token_url=tokenURL,client_id=consumerKey,client_secret=consumerSecret,auth=HTTPBasicAuth(consumerKey, consumerSecret))
-        response = oauth.get(serviceURL)
-
         credentials = pika.PlainCredentials(username, password)
         connection = pika.BlockingConnection(pika.ConnectionParameters(
             host=host, port='5672', virtual_host=vhost, credentials=credentials, socket_timeout=5))
@@ -41,6 +33,10 @@ def main():
 
         # defining callback function to incoming queue messages
         def callbackFunctionForQueueA(ch, method, properties, body):
+            client = BackendApplicationClient(client_id=consumerKey)
+            oauth = OAuth2Session(client=client)
+            _ = oauth.fetch_token(token_url=tokenURL,client_id=consumerKey,client_secret=consumerSecret,auth=HTTPBasicAuth(consumerKey, consumerSecret))
+            response = oauth.get(serviceURL)
             print('Message is received from Queue {}. Message is : '.format(
                 queueName), body)
             print("Response from the service: ", response.text)
