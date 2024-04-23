@@ -10,8 +10,8 @@ spec:
       schemaFilePath: helloConfigs/src/main/resources/metadata/HelloWorld_swagger.yaml
   outbound:
     serviceReferences:
-    - name: choreo:///hansijk/iasf/isdtvy/8b1c3/v1/PUBLIC
-      connectionConfig: 01eefd3a-5588-1720-b731-dddb6b4c4dea
+    - name: choreo:///hansistage/uuzz/qxtcxo/8b1c3/v1.0/PUBLIC
+      connectionConfig: 01ef017c-ddc4-1a86-8fb4-1838e936e1ea
       env:
       - from: ServiceURL
         to: SVC_URL
