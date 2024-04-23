@@ -11,7 +11,7 @@ def main():
     vhost = os.getenv("VHOST")
     host = os.getenv("HOST")
     password = os.getenv("PASSWORD")
-    queueName = "TestQueue"
+    queueName = "TestQueue2"
     exchange = 'choreo'
 
     serviceURL = os.getenv("SVC_URL")
