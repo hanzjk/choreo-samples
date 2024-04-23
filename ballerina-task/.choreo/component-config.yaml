@@ -4,7 +4,7 @@ spec:
   outbound:
     serviceReferences:
     - name: choreo:///hansistage/uuzz/qxtcxo/8b1c3/v1.0/PUBLIC
-      connectionConfig: 01ef0176-4197-1a28-9476-f6f6f7d7525d
+      connectionConfig: 01ef0184-d144-14d8-b09c-a34aebd7b142
       env:
       - from: ServiceURL
         to: SVC_URL
