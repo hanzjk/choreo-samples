@@ -11,7 +11,7 @@ def main():
     vhost = os.getenv("VHOST")
     host = os.getenv("HOST")
     password = os.getenv("PASSWORD")
-    queueName = "TestQueue3"
+    queueName = "TestQueue"
     exchange = 'choreo'
 
     serviceURL = os.getenv("SVC_URL")
@@ -19,6 +19,16 @@ def main():
     consumerSecret = os.getenv("CONSUMER_SECRET")
     tokenURL = os.getenv("TOKEN_URL")
 
+
+    print("USERNAME:", username)
+    print("VHOST:", vhost)
+    print("HOST:", host)
+    print("PASSWORD:", password)
+
+    print("serviceURL:", serviceURL)
+    print("consumerKey:", consumerKey)
+    print("consumerSecret:", consumerSecret)
+    print("tokenURL:", tokenURL)
     if (username != None and vhost != None and host != None and password != None):
         
         credentials = pika.PlainCredentials(username, password)
