@@ -1,3 +1,4 @@
+import os
 print("Hello World")
 serviceURL = os.getenv("SVC_URL")
 consumerKey = os.getenv("CONSUMER_KEY")
