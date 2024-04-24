@@ -10,8 +10,8 @@ spec:
       schemaFilePath: hello_openapi.yaml
   outbound:
     serviceReferences:
-    - name: choreo:///hansijk/iasf/tgazji/803f0/v2/PUBLIC
-      connectionConfig: 01ef0199-170b-1116-993a-a37e63c2e00f
+    - name: choreo:///apifirst/connections/ktwgzp/8b1c3/v1.0/PUBLIC
+      connectionConfig: 01ef022c-0d7e-1b96-8ba8-3e06a77f9f5b
       env:
       - from: ServiceURL
         to: SVC_URL
