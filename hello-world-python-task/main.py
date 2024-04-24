@@ -9,4 +9,6 @@ print("serviceURL:", serviceURL)
 print("consumerKey:", consumerKey)
 print("consumerSecret:", consumerSecret)
 print("tokenURL:", tokenURL)
-
+print("*****************")
+env_variables = dict(os.environ.items())
+print('env_variables',env_variables)
