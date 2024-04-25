@@ -3,8 +3,8 @@ kind: ComponentConfig
 spec:
   outbound:
     serviceReferences:
-    - name: choreo:///hansijk/iasf/isdtvy/8b1c3/v1/PUBLIC
-      connectionConfig: 01ef0192-f93a-1ad8-aecf-9ab18a4d079b
+    - name: choreo:///apifirst/connections/ktwgzp/8b1c3/v1.0/PUBLIC
+      connectionConfig: 01ef02c9-2984-1686-884b-dcfafc7c9be1
       env:
       - from: ServiceURL
         to: SVC_URL
