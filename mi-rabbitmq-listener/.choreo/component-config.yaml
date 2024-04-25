@@ -4,7 +4,7 @@ spec:
   outbound:
     serviceReferences:
     - name: choreo:///apifirst/connections/ktwgzp/8b1c3/v1.0/PUBLIC
-      connectionConfig: 01ef0241-e895-140e-ae4c-7946dc8768af
+      connectionConfig: 01ef02c8-c5fa-13ae-8de9-ef2f256c8d72
       env:
       - from: ServiceURL
         to: SVC_URL
