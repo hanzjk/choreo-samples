@@ -1,13 +1,6 @@
 apiVersion: core.choreo.dev/v1beta1
 kind: ComponentConfig
 spec:
-  inbound:
-    - name: Ballerina Greeter
-      port: 8090
-      type: REST
-      networkVisibility: Public
-      context: /hello
-      schemaFilePath: hello_openapi.yaml
   outbound:
     serviceReferences:
     - name: choreo:///hansijk/iasf/isdtvy/8b1c3/v1/PUBLIC
