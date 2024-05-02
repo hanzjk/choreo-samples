@@ -4,7 +4,7 @@ spec:
   outbound:
     serviceReferences:
     - name: choreo:///hwjsk/zkyf/bspmht/8b1c3/v1/PUBLIC
-      connectionConfig: 01ef08ac-93de-16f6-824f-aa6fdbb571bd
+      connectionConfig: 01ef08ad-d48a-1b86-9673-860550d0c36d
       env:
       - from: ServiceURL
         to: SVC_URL
