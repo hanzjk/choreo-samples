@@ -2,8 +2,8 @@ import ballerina/http;
 import ballerina/os;
 import ballerina/io;
 
-service /hello on new http:Listener(8090) {
-    resource function get greeting() returns json|error {
+service / on new http:Listener(8090) {
+    resource function get .() returns json|error {
         string serviceURL = os:getEnv("SVC_URL");
         string tokenURL = os:getEnv("TOKEN_URL");
         string consumerKey = os:getEnv("CONSUMER_KEY");
