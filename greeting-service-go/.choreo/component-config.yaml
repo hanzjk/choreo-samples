@@ -8,16 +8,3 @@ spec:
       networkVisibility: Public
       context: /
       schemaFilePath: openapi.yaml
-  outbound:
-    serviceReferences:
-    - name: choreo:///apifirst/connections/mpcxsv/8b1c3/v1/PUBLIC
-      connectionConfig: 01ef11dc-2b60-18de-bad6-28fc952dacd6
-      env:
-      - from: ServiceURL
-        to: SVC_URL
-      - from: ConsumerKey
-        to: CONSUMER_KEY
-      - from: ConsumerSecret
-        to: CONSUMER_SECRET
-      - from: TokenURL
-        to: TOKEN_URL
