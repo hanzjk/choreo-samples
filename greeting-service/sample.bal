@@ -5,6 +5,8 @@ type Greeting record {
     string to;
     string message;
 };
+configurable string name = ?;
+
 
 service / on new http:Listener(8090) {
     resource function get .() returns Greeting {
