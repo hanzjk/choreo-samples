@@ -2,8 +2,7 @@
 
 ## Use Case
 
-This sample demonstrates an appointment booking system designed to streamline the process of scheduling healthcare appointments, featuring a backend for managing appointments and a frontend web application. The backend uses a database connection to connect with a database created in Choreo. 
-
+This sample demonstrates an appointment booking system designed to streamline the process of scheduling healthcare appointments, featuring a backend for managing appointments and a frontend web application. The backend uses a database connection to connect with a database created in Choreo.
 
 ## Prerequisites
 
@@ -53,7 +52,7 @@ To deploy this demo use case in Choreo, follow these steps:
 
 ### Step 03: Consume the created database connection
 
-1. Copy the code snippet for component.yaml v1.1 from the inline how-to guide of the  created connection.
+1. Copy the code snippet for component.yaml v1.1 from the inline how-to guide of the created connection.
 2. Add it to the `appointment-management/appointment-service/.choreo/component.yaml` file as per the instructions in the guide.
 3. Commit the changes to your repository.
 4. Build the component with the latest commit and deploy it.
@@ -64,7 +63,7 @@ To deploy this demo use case in Choreo, follow these steps:
 1. Fork the repository
 2. Create a Service component using `NodeJS` buildpack with language version `20.x.x` and link the `appointment-management/web-portal/backend` directory
 
-### Step 05:  Create a service connection for service to service communication
+### Step 05: Create a service connection for service to service communication
 
 1. In the left navigation menu, click `Dependencies` and then click `Connections`.
 2. Click `Service` Card to create a service connection
@@ -73,7 +72,7 @@ To deploy this demo use case in Choreo, follow these steps:
 
 ### Step 06: Consume the created service connection
 
-1. Copy the code snippet for component.yaml v1.1 from the inline how-to guide of the  created connection.
+1. Copy the code snippet for component.yaml v1.1 from the inline how-to guide of the created connection.
 2. Add it to the `appointment-management/web-portal/backend/.choreo/component.yaml` file as per the instructions in the guide.
 3. Commit the changes to your repository.
 4. Build the component with the latest commit and deploy it.
@@ -84,7 +83,7 @@ To deploy this demo use case in Choreo, follow these steps:
 1. Fork the repository
 2. Create a web application component using the `React` buildpack with node version `20`, a build command of `npm run build`, and a build path set to `/build`. Link it to the `appointment-management/web-portal/frontend` directory.
 
-### Step 08:  Create a service connection for web application to service communication
+### Step 08: Create a service connection for web application to service communication
 
 1. In the left navigation menu, click `Dependencies` and then click `Connections`.
 2. Click `Service` Card to create a service connection
@@ -95,7 +94,7 @@ To deploy this demo use case in Choreo, follow these steps:
 
 1. Copy the code snippet from the inline how-to guide of the created connection.
 2. Navigate to deploy page and select `Configure & Deploy` button. This opens the Configure & Deploy pane, where you can specify values for the mount file.
-3. Paste the code snippet copied in step 01 as the `config.js` file content and click `Next`. 
+3. Paste the code snippet copied in step 01 as the `config.js` file content and click `Next`.
 4. Under Authentication Settings, make sure that you have the Managed authentication with Choreo toggle enabled.
 5. Deploy the web application
 
@@ -111,6 +110,7 @@ In this use case we are using Choreo managed authentication to authenticate with
 5. Use the uploaded credentials to login and tryout the web application
 
 For more information, see our [documentation](https://wso2.com/choreo/docs/administer/configure-a-user-store-with-built-in-idp/)
+
 </details>
 <details>
 
@@ -121,12 +121,10 @@ For more information, see our [documentation](https://wso2.com/choreo/docs/admin
 3. Select Asgardeo as the identity provider.
 4. Go to https://console.asgardeo.io/ and create a new user to sign in to the wbe application from `User Management` settings
 5. Create a new standard based application and configure it using the provided OIDC App Configuration information.
-6. Copy Client ID and Client Secret to Choreo console's OIDC App configuration and click on `Add Keys` button. 
-
+6. Copy Client ID and Client Secret to Choreo console's OIDC App configuration and click on `Add Keys` button.
 
 </details>
 
-
-
 ##### Note
-If you use a different names for the connections, update the environment variable names in `appointment-management/appointment-service/database.js` and `appointment-management/web-portal/backend/server.js`
+
+If you use a different names for the connections, update the environment variable names in `appointment-management/appointment-service/database.js` and `appointment-management/web-portal/backend/server.js` by following the instructions provided in the inline guide for the created connections.
