@@ -94,7 +94,7 @@ To deploy this demo use case in Choreo, follow these steps:
 
 1. Copy the code snippet from the inline how-to guide of the created connection.
 2. Navigate to deploy page and select `Configure & Deploy` button. This opens the Configure & Deploy pane, where you can specify values for the mount file.
-3. Paste the code snippet copied in step 01 as the `config.js` file content and click `Next`.
+3. Paste the code snippet copied in step 01 as the `config.js` file content and click `Next`. 
 4. Under Authentication Settings, make sure that you have the Managed authentication with Choreo toggle enabled.
 5. Deploy the web application
 
