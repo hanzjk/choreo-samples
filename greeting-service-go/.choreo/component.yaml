@@ -9,4 +9,4 @@ endpoints:
       networkVisibilities:
         - Project
         - Public
-      schemaFilePath: openapi.yaml
+      schemaFilePath: swagger/openapi.yaml
