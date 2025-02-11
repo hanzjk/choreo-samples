@@ -9,4 +9,4 @@ endpoints:
       networkVisibilities:
         - Project
         - Public
-      schemaFilePath: swagger/CardExchange_API-swagger-d.yaml
+      schemaFilePath: swagger/CardExchange_API-swagger_d.yaml
