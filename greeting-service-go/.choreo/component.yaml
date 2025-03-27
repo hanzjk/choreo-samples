@@ -21,9 +21,9 @@ schemaVersion: 1.1
 endpoints:
   # +required Unique name for the endpoint.
   # This name will be used when generating the managed API
-  - name: go_greeter
+  - name: go_greeter_v2
     # +optional Display name for the endpoint.
-    displayName: Go Greeter
+    displayName: Go Greeter V2
     # +required Service section has the user service endpoint details
     service:
       # +optional Base path of the API that gets exposed via the endpoint.
