@@ -1,6 +1,6 @@
 schemaVersion: "1.1"
 endpoints:
-    - name: go-greeterv2-803
+    - name: go-greeter-803
       displayName: Go Greeter
       service:
         basePath: /
