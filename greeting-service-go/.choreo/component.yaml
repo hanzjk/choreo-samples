@@ -1,11 +1,11 @@
 schemaVersion: 1.1
 endpoints:
-  - name: go-greeter-v23
+  - name: go-greeter-v24
     service:
       port: 9090
       basePath: /
     type: REST
-    displayName: Go Greeter V23
+    displayName: Go Greeter V24
     networkVisibilities:
       - Public
     schemaFilePath: openapi.yaml
