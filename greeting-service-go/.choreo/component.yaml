@@ -1,6 +1,6 @@
 schemaVersion: 1.1
 endpoints:
-  - name: go-greeter-v3
+  - name: go-greeter-v31
     service:
       port: 9090
       basePath: /
