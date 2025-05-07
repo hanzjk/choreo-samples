@@ -5,7 +5,7 @@ info:
 servers:
   - url: http://localhost:5005
 paths:
-  /greeter/greet:
+  /greeter/greeting:
     get:
       summary: Greet a person
       description: Greet a person by name
