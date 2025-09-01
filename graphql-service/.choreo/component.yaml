@@ -1,0 +1,11 @@
+schemaVersion: "1.2"
+endpoints:
+    - name: greeting-graphql-591
+      displayName: Greeting GraphQL
+      service:
+        basePath: /
+        port: 8090
+      type: GraphQL
+      networkVisibilities:
+        - Project
+        - Public
