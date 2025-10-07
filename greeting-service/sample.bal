@@ -1,5 +1,5 @@
 import ballerina/http;
-import import ballerinax/trigger.github;ballerina/http;
+import import ballerinax/trigger.github;
 
 type Greeting record {
     string 'from;
