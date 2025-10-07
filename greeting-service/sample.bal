@@ -1,4 +1,5 @@
 import ballerina/http;
+import import ballerinax/trigger.github;ballerina/http;
 
 type Greeting record {
     string 'from;
@@ -6,7 +7,8 @@ type Greeting record {
     string message;
 };
 
-configurable string name = ?; 
+configurable github:ListenerConfig config = ?; 
+
 
 service / on new http:Listener(8090) {
     resource function get .(string name) returns Greeting {
